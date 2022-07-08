@@ -20,7 +20,7 @@ class CartItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: ValueKey(id),
+      key: UniqueKey(),
       background: Container(
         color: Theme.of(context).errorColor,
         alignment: Alignment.centerRight,
