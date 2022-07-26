@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import './product.dart';
+import 'package:http/http.dart' as http;
 
 class Products with ChangeNotifier {
   final List<Product> _items = [
@@ -58,16 +60,29 @@ class Products with ChangeNotifier {
     return items.firstWhere((prod) => prod.id == id);
   }
 
-  void addProduct(Product product) {
-    final newProduct = Product(
-      id: DateTime.now().toString(),
-      title: product.title,
-      description: product.description,
-      price: product.price,
-      imageUrl: product.imageUrl,
-      isFavorite: product.isFavorite,
-    );
-    _items.add(newProduct);
+  Future<void>? addProduct(Product product) {
+    const url = 'https://e-commerce-app-71bc9-default-rtdb.firebaseio.com/products.json';
+    // POST Request
+    return http.post(url as Uri, body: json.encode({
+      'title': product.title,
+      'description' : product.description,
+      'imageUrl' : product.imageUrl,
+      'price' : product.price,
+      'isFavorite' : product.isFavorite,
+    })).then((response) {
+      final newProduct = Product(
+        id: json.decode(response.body)['name'],
+        title: product.title,
+        description: product.description,
+        price: product.price,
+        imageUrl: product.imageUrl,
+        isFavorite: product.isFavorite,
+      );
+      _items.add(newProduct);
+    }).catchError((error){
+      print(error);
+      throw error;
+    });
     // _items.insert(0, newProduct);
     notifyListeners();
   }
@@ -88,7 +103,7 @@ class Products with ChangeNotifier {
       _items[prodIndex] = newProduct;
       notifyListeners();
     }else{
-      print('');
+      // print('');
     }
   }
 
