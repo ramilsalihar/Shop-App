@@ -26,38 +26,38 @@ class Cart with ChangeNotifier {
   }
 
   double get totalAmount {
-    double total = 0.0;
+    var total = 0.0;
     _items.forEach((key, cartItem) {
       total += cartItem.price * cartItem.quantity;
     });
     return total;
   }
 
-  void addItem(String productId,
+  void addItem(
+      String productId,
       double price,
-      String title,) {
+      String title,
+      ) {
     if (_items.containsKey(productId)) {
-      // change quantity
+      // change quantity...
       _items.update(
         productId,
-            (existingCartItem) =>
-            CartItem(
-              id: existingCartItem.id,
-              title: existingCartItem.title,
-              quantity: existingCartItem.quantity + 1,
-              price: existingCartItem.price,
-            ),
+            (existingCartItem) => CartItem(
+          id: existingCartItem.id,
+          title: existingCartItem.title,
+          price: existingCartItem.price,
+          quantity: existingCartItem.quantity + 1,
+        ),
       );
     } else {
       _items.putIfAbsent(
         productId,
-            () =>
-            CartItem(
-              id: DateTime.now().toString(),
-              title: title,
-              price: price,
-              quantity: 1,
-            ),
+            () => CartItem(
+          id: DateTime.now().toString(),
+          title: title,
+          price: price,
+          quantity: 1,
+        ),
       );
     }
     notifyListeners();
@@ -73,11 +73,14 @@ class Cart with ChangeNotifier {
       return;
     }
     if (_items[productId]!.quantity > 1) {
-      _items.update(productId, (existingCartItem) =>
-          CartItem(id: existingCartItem.id,
+      _items.update(
+          productId,
+              (existingCartItem) => CartItem(
+            id: existingCartItem.id,
             title: existingCartItem.title,
+            price: existingCartItem.price,
             quantity: existingCartItem.quantity - 1,
-            price: existingCartItem.price,));
+          ));
     } else {
       _items.remove(productId);
     }
@@ -88,5 +91,4 @@ class Cart with ChangeNotifier {
     _items = {};
     notifyListeners();
   }
-
 }
