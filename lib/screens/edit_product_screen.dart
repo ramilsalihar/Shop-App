@@ -6,6 +6,8 @@ import '../providers/products.dart';
 class EditProductScreen extends StatefulWidget {
   static const routeName = '/edit-product';
 
+  const EditProductScreen({super.key});
+
   @override
   _EditProductScreenState createState() => _EditProductScreenState();
 }
@@ -41,15 +43,15 @@ class _EditProductScreenState extends State<EditProductScreen> {
   @override
   void didChangeDependencies() {
     if (_isInit) {
-      final productId = ModalRoute.of(context)!.settings.arguments as String;
-      if (productId != null) {
+      if(ModalRoute.of(context)?.settings.arguments != null){
+        final String productId = ModalRoute.of(context)?.settings.arguments as String;
+
         _editedProduct =
             Provider.of<Products>(context, listen: false).findById(productId);
         _initValues = {
           'title': _editedProduct.title,
           'description': _editedProduct.description,
           'price': _editedProduct.price.toString(),
-          // 'imageUrl': _editedProduct.imageUrl,
           'imageUrl': '',
         };
         _imageUrlController.text = _editedProduct.imageUrl;
@@ -88,10 +90,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
       return;
     }
     _form.currentState!.save();
+
     setState(() {
       _isLoading = true;
     });
-    if (_editedProduct.id != null) {
+
+    if (_editedProduct.id != '') {
       await Provider.of<Products>(context, listen: false)
           .updateProduct(_editedProduct.id, _editedProduct);
     } else {
@@ -102,11 +106,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
         await showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
-            title: Text('An error occurred!'),
-            content: Text('Something went wrong.'),
+            title: const Text('An error occurred!'),
+            content: const Text('Something went wrong.'),
             actions: <Widget>[
               TextButton(
-                child: Text('Okay'),
+                child: const Text('Okay'),
                 onPressed: () {
                   Navigator.of(ctx).pop();
                 },

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/theme.dart';
 
 import './screens/splash_screen.dart';
 import './screens/cart_screen.dart';
@@ -49,14 +50,8 @@ class MyApp extends StatelessWidget {
       child: Consumer<Auth>(
         builder: (ctx, auth, _) => MaterialApp(
           title: 'MyShop',
-          theme: ThemeData(
-            primarySwatch: Colors.purple,
-            colorScheme: ColorScheme.fromSwatch().copyWith(
-              secondary: Colors.deepOrange,
-            ),
-            fontFamily: 'Lato',
-          ),
-          home: false
+          theme: theme,
+          home: auth.isAuth
               ? ProductsOverviewScreen()
               : FutureBuilder(
                   future: auth.tryAutoLogin(),
@@ -66,6 +61,7 @@ class MyApp extends StatelessWidget {
                           ? SplashScreen()
                           : AuthScreen(),
                 ),
+          // List of routes that this app have
           routes: {
             ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
             CartScreen.routeName: (ctx) => CartScreen(),

@@ -5,33 +5,39 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/http_exceptions.dart';
 
+// ChangeNotifier provides notification to listeners
 class Auth with ChangeNotifier {
   String? _token;
   DateTime? _expiryDate;
   String? _userId;
   Timer? _authTimer;
 
+  // This class takes no argument, because data are fetched from firebase
+
+  // If user is already authenticated
   bool get isAuth {
     return token != null;
   }
 
-  String get token {
+  // Provide an extra level of security to access data or a network
+  String? get token {
     if (_expiryDate != null &&
         _expiryDate!.isAfter(DateTime.now()) &&
         _token != null) {
-      return _token ?? '';
+      return _token;
     }
-    return '';
+    return null;
   }
 
-  String get userId {
-    return _userId ?? '';
+  // Getting different users to distinguish them
+  String? get userId {
+    return _userId;
   }
 
-  Future<void> _authenticate(
-      String email, String password, String urlSegment) async {
-    final url =
-        'https://www.googleapis.com/identitytoolkit/v3/relyingparty/$urlSegment?key=AIzaSyC13spCwP_f_SalxEbkB-wjedoF8iYENlQ';
+  Future<void> _authenticate(String email, String password, String urlSegment) async {
+    const apiKey = 'AIzaSyA-9DYplXzSlp_4e7Ge0d8z6kPCH0wpqww';
+    final url = 'https://identitytoolkit.googleapis.com/v1/accounts:$urlSegment?key=$apiKey';
+
     try {
       final response = await http.post(
         Uri.parse(url),
@@ -43,10 +49,13 @@ class Auth with ChangeNotifier {
           },
         ),
       );
+
       final responseData = json.decode(response.body);
       if (responseData['error'] != null) {
         throw HttpException(responseData['error']['message']);
       }
+
+      // Fetched from firebase authentication
       _token = responseData['idToken'];
       _userId = responseData['localId'];
       _expiryDate = DateTime.now().add(
@@ -56,8 +65,11 @@ class Auth with ChangeNotifier {
           ),
         ),
       );
+
       _autoLogout();
       notifyListeners();
+
+      // Storing loginData in SharedPreferences for autoLogin
       final prefs = await SharedPreferences.getInstance();
       final userData = json.encode(
         {
@@ -68,16 +80,16 @@ class Auth with ChangeNotifier {
       );
       prefs.setString('userData', userData);
     } catch (error) {
-      throw error;
+      rethrow;
     }
   }
 
   Future<void> signup(String email, String password) async {
-    return _authenticate(email, password, 'signupNewUser');
+    return _authenticate(email, password, 'signUp');
   }
 
   Future<void> login(String email, String password) async {
-    return _authenticate(email, password, 'verifyPassword');
+    return _authenticate(email, password, 'signInWithPassword');
   }
 
   Future<bool> tryAutoLogin() async {
@@ -85,7 +97,8 @@ class Auth with ChangeNotifier {
     if (!prefs.containsKey('userData')) {
       return false;
     }
-    final extractedUserData = json.decode(prefs.getString('userData') ?? '') as Map<String, Object>;
+
+    final extractedUserData = json.decode(prefs.getString('userData') ?? '') as Map<String, dynamic>;
     final expiryDate = DateTime.parse(extractedUserData['expiryDate'] as String);
 
     if (expiryDate.isBefore(DateTime.now())) {
@@ -118,6 +131,7 @@ class Auth with ChangeNotifier {
       _authTimer!.cancel();
     }
     final timeToExpiry = _expiryDate!.difference(DateTime.now()).inSeconds;
+    // logout happens when timer expires
     _authTimer = Timer(Duration(seconds: timeToExpiry), logout);
   }
 }

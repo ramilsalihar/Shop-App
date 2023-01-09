@@ -1,6 +1,8 @@
 
 // abstract class, forcing implementing everything that class has
 // every class extends Object
+
+// Blue Print
 class HttpException implements Exception {
   final String message;
 

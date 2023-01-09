@@ -38,6 +38,8 @@ dependencies:
   intl: ^0.17.0
   http: ^0.13.4
   shared_preferences: ^2.0.15
+  firebase_core: ^2.4.1
+  firebase_database: ^10.0.9
 
 dev_dependencies:
   flutter_test:
