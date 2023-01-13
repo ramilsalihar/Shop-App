@@ -17,10 +17,10 @@
      <td>Product's List</td>
   </tr>
   <tr>
-    <td><img src="assets/images/sign_up.jpg" width=270 height=400></td>
-    <td><img src="assets/images/products_page.jpg" width=270 height=400></td>
-    <td><img src="assets/images/favorite_page.jpg" width=270 height=400></td>
-    <td><img src="assets/images/products.jpg" width=270 height=400></td>
+    <td><img src="assets/images/sign_up.jpg" width=270 height=370></td>
+    <td><img src="assets/images/products_page.jpg" width=270 height=370></td>
+    <td><img src="assets/images/favorite_page.jpg" width=270 height=370></td>
+    <td><img src="assets/images/products.jpg" width=270 height=370></td>
   </tr>
   <tr>
     <td>Drawer</td>
@@ -29,10 +29,10 @@
      <td>Order Page</td>
   </tr>
   <tr>
-    <td><img src="assets/images/drawer.jpg" width=270 height=400></td>
-    <td><img src="assets/images/edit_product.jpg" width=270 height=400></td>
-    <td><img src="assets/images/orders.jpg" width=270 height=400></td>
-    <td><img src="assets/images/orders_page.jpg" width=270 height=400></td>
+    <td><img src="assets/images/drawer.jpg" width=270 height=370></td>
+    <td><img src="assets/images/edit_product.jpg" width=270 height=370></td>
+    <td><img src="assets/images/orders.jpg" width=270 height=370></td>
+    <td><img src="assets/images/orders_page.jpg" width=270 height=370></td>
   </tr>
  </table>
  
