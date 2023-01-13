@@ -6,3 +6,5 @@
 - User inputs and forms
 - Firebase Authentication and Database
 - Http request
+
+<h2> Interface of the application </h2>
