@@ -1,8 +1,7 @@
+import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/auth.dart';
-import '../models/http_exceptions.dart';
 
 enum AuthMode { signup, login }
 
@@ -42,33 +41,33 @@ class AuthScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   // Flexible(
-                    // child: Container(
-                    //   margin: const EdgeInsets.only(bottom: 20.0),
-                    //   padding:
-                    //   const EdgeInsets.symmetric(vertical: 8.0, horizontal: 94.0),
-                    //   transform: Matrix4.rotationZ(-8 * pi / 180)
-                    //     ..translate(-10.0),
-                    //   decoration: BoxDecoration(
-                    //     borderRadius: BorderRadius.circular(20),
-                    //     color: Colors.deepOrange.shade900,
-                    //     boxShadow: const [
-                    //       BoxShadow(
-                    //         blurRadius: 8,
-                    //         color: Colors.black26,
-                    //         offset: Offset(0, 2),
-                    //       )
-                    //     ],
-                    //   ),
-                    //   child: Text(
-                    //     'MyShop',
-                    //     style: TextStyle(
-                    //       color: Theme.of(context).textTheme.titleLarge!.color,
-                    //       fontSize: 50,
-                    //       fontFamily: 'Anton',
-                    //       fontWeight: FontWeight.normal,
-                    //     ),
-                    //   ),
-                    // ),
+                  // child: Container(
+                  //   margin: const EdgeInsets.only(bottom: 20.0),
+                  //   padding:
+                  //   const EdgeInsets.symmetric(vertical: 8.0, horizontal: 94.0),
+                  //   transform: Matrix4.rotationZ(-8 * pi / 180)
+                  //     ..translate(-10.0),
+                  //   decoration: BoxDecoration(
+                  //     borderRadius: BorderRadius.circular(20),
+                  //     color: Colors.deepOrange.shade900,
+                  //     boxShadow: const [
+                  //       BoxShadow(
+                  //         blurRadius: 8,
+                  //         color: Colors.black26,
+                  //         offset: Offset(0, 2),
+                  //       )
+                  //     ],
+                  //   ),
+                  //   child: Text(
+                  //     'MyShop',
+                  //     style: TextStyle(
+                  //       color: Theme.of(context).textTheme.titleLarge!.color,
+                  //       fontSize: 50,
+                  //       fontFamily: 'Anton',
+                  //       fontWeight: FontWeight.normal,
+                  //     ),
+                  //   ),
+                  // ),
                   // ),
                   Flexible(
                     flex: deviceSize.width > 600 ? 2 : 1,
